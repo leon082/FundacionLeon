@@ -16,9 +16,9 @@ import java.sql.*;
 public class Servicio_BD implements Serializable {
 
     public String nameDB = "proyecto";
-    public String login = "AppProyecto";
-    public String password = "AppProyecto";
-    public String url = "jdbc:mysql://181.118.148.8:3306/" + nameDB;
+    public String login = "root";
+    public String password = "luisleon9";
+    public String url = "jdbc:mysql://localhost:3306/" + nameDB;
     public Connection Link = null;
 
     public boolean conectar() {

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21/05/2016 07:17:24 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="modelo.Representante" table="representante" catalog="proyecto">
+        <composite-id name="id" class="modelo.RepresentanteId">
+            <key-property name="idrepresentante" type="int">
+                <column name="idrepresentante" />
+            </key-property>
+            <key-property name="integrantePoblacionIdIntegrante" type="int">
+                <column name="integrantePoblacion_idIntegrante" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="integrantepoblacion" class="modelo.Integrantepoblacion" update="false" insert="false" fetch="select">
+            <column name="integrantePoblacion_idIntegrante" not-null="true" />
+        </many-to-one>
+        <property name="telefono" type="string">
+            <column name="telefono" length="45" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="45" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

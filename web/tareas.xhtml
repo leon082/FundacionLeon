@@ -1,0 +1,127 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets" 
+                 template="Template.xhtml" >
+
+    <ui:define name="content" >
+ 
+        <h:form id="forma">
+            
+            <p:growl id="grow" showDetail="true" life="5555"/>  
+            
+            <p:tabView id="tab">
+                <p:tab title="Gestion Tareas"> <!-- Nombre  -->
+                    <h:panelGrid columns="4" cellpadding="5">
+                        
+                        <p:outputLabel for="add_1" value="Proyecto :" />
+                        <p:selectOneMenu  id="add_1" value="#{tareasBean.v_selectProyecto}">  
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                                <f:selectItems value="#{tareasBean.itemsProyectos}"/>  
+                                <p:ajax event="change" update="add_2"  listener="#{tareasBean.cargarTrabajadores()}"/>
+                         </p:selectOneMenu>   
+                        <p:outputLabel for="add_2" value="Representante :" />
+                        <p:selectOneMenu  id="add_2" value="#{tareasBean.v_selectTrabajadores}">  
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                                <f:selectItems value="#{tareasBean.itemsTrabajadores}"/>  
+                                
+                         </p:selectOneMenu>
+                       
+
+                        <p:outputLabel for="add_3" value="Descripcion :" />
+                        <p:inputText   id="add_3" value="#{tareasBean.tareas.descripcion}" />
+
+                        <p:outputLabel for="add_4" value="Fecha asignación :" />
+                        <p:calendar id="add_4" value="#{tareasBean.tareas.fechaAsignacion}"  />
+
+                        <p:outputLabel for="add_5" value="Fecha culminación :" />
+                        <p:calendar id="add_5" value="#{tareasBean.tareas.fechaCulminacion}" />
+
+                        
+
+                    </h:panelGrid>
+                    <p:separator />
+                    
+                    <!-- Se actulizan los formularios  forma y forma2 para limpiar y mostrar cambios -->
+                    <!--update=":forma:grow,:forma:tab:add_1,:forma:tab:add_2,:forma:tab:add_3,:forma:tab:add_4,:forma:tab:add_5,:forma2:listaTareas"-->
+                    
+                    <p:commandButton 
+                        update=":forma:grow,:forma:tab:add_1,:forma:tab:add_2,:forma:tab:add_3,:forma:tab:add_4,:forma:tab:add_5,:forma2:listaTareas"
+                        ajax="true" value="Crear" action="#{tareasBean.crear()}"
+                                      />
+                </p:tab>
+
+            </p:tabView>
+
+
+        </h:form>
+
+	<h:form id="forma2">
+
+            <p:dataTable id="listaTareas" value="#{tareasBean.listaTareas}"
+			var="tarea" 
+                        paginator="true" 
+                        rows="20" 
+                        editable="true"
+                        paginatorPosition="bottom"
+                        >
+
+                       <p:ajax event="rowEdit" listener="#{tareasBean.modificar}" update=":forma:grow" />
+
+                      <p:column headerText="Codigo tarea">
+                          <p:outputLabel value="#{tarea.idtareas}"></p:outputLabel>
+			</p:column>
+               
+			<p:column style="width:150px" headerText="Representante">
+                            <h:outputText value="#{tarea.proyectoTrabajador.trabajador.nombres}" />
+                        </p:column>
+
+			<p:column headerText="Descripcion">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{tarea.descripcion}" /></f:facet>
+                               <f:facet name="input">
+                                   <p:inputText id="modelDescripcion" value="#{tarea.descripcion}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+
+			<p:column  headerText="Fecha asignacion">
+                             <p:cellEditor>
+                                 <f:facet name="output"><p:calendar disabled="true" value="#{tarea.fechaAsignacion}" /></f:facet>
+                               <f:facet name="input">
+                                   <p:calendar  value="#{tarea.fechaAsignacion}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+
+			<p:column  headerText="Fecha Culminancion">
+                            <p:cellEditor>
+                                <f:facet name="output"><p:calendar disabled="true" value="#{tarea.fechaCulminacion}" /></f:facet>
+                               <f:facet name="input">
+                                  <p:calendar  value="#{tarea.fechaCulminacion}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+               
+                     
+                        <!-- Editar -->
+                        <p:column style="width:30px">
+                          <p:rowEditor />
+                        </p:column>
+                        <!-- Borrar -->
+                        <p:column headerText="" style="width:30px" >
+                            <p:commandButton 
+                              update=":forma:grow,:forma2:listaTareas"
+                              ajax="true" icon="ui-icon-trash"
+                              action="#{tareasBean.eliminar(tarea)}" />
+			</p:column> 
+
+		</p:dataTable>
+
+	</h:form>
+        
+
+    </ui:define>
+      
+</ui:composition>

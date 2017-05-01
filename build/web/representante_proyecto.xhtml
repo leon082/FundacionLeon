@@ -1,0 +1,80 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets" 
+                 template="Template.xhtml" >
+
+    <ui:define name="content" >
+
+        <h:form id="forma">
+
+            <p:growl id="grow" showDetail="true" life="5555"/>  
+
+            <p:tabView id="tab">
+                <p:tab title="Gestion Representante Proyecto"> <!-- Nombre  -->
+                    <h:panelGrid columns="4" cellpadding="5">
+
+
+                        <p:outputLabel for="add_1" value="Representante :" />
+                        <p:selectOneMenu  id="add_1" value="#{representanteProyectoBean.v_select_representante}">  
+                            <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                            <f:selectItems value="#{representanteProyectoBean.itemsComRepresentante}"/>  
+                        </p:selectOneMenu> 
+
+                        <p:outputLabel for="add_2" value="Proyecto :" />
+                        <p:selectOneMenu  id="add_2" value="#{representanteProyectoBean.v_select_proyecto}">  
+                            <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                            <f:selectItems value="#{representanteProyectoBean.itemsComProyectos}"/>  
+                        </p:selectOneMenu> 
+
+                    </h:panelGrid>
+                    <p:separator />
+
+                    <!-- Se actulizan los formularios  forma y forma2 para limpiar y mostrar cambios -->
+                    <p:commandButton 
+                        update=":forma:grow,:forma:tab:add_1,:forma:tab:add_2"
+                        ajax="true" value="Crear" action="#{representanteProyectoBean.crear()}"
+                        />
+                </p:tab>
+
+            </p:tabView>
+
+
+        </h:form>
+
+        <h:form id="forma2">
+
+            <p:dataTable id="listaRepresentante" value="#{representanteProyectoBean.listaRepresentanteProyecto}"
+                         var="representanteProyecto" 
+                         paginator="true" 
+                         rows="20" 
+                         paginatorPosition="bottom"
+                         >
+
+                <p:ajax event="rowEdit" listener="#{representanteProyectoBean.modificar}" update=":forma:grow" />
+
+                <p:column style="width: 100px" headerText="Codigo representante">
+                    <p:outputLabel value="#{representanteProyecto.id.idRepresentanteProyecto}"></p:outputLabel>
+                </p:column>
+                <p:column style="width:150px" headerText="Trabajador">
+                    <h:outputText value="#{representanteProyecto.proyectoTrabajador.trabajador.nombres}" />
+                </p:column>
+                <p:column style="width:150px" headerText="Proyecto">
+                    <h:outputText value="#{representanteProyecto.proyectoTrabajador.proyecto.descripcion}" />
+                </p:column>
+                <!-- Borrar -->
+                <p:column headerText="" style="width:30px" >
+                    <p:commandButton 
+                        update=":forma:grow,:forma2:listaRepresentante"
+                        ajax="true" icon="ui-icon-trash"
+                        action="#{representanteProyectoBean.eliminar(representanteProyecto)}" />
+                </p:column> 
+
+            </p:dataTable>
+
+        </h:form>
+        
+   </ui:define>
+      
+</ui:composition>

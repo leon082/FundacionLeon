@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://181.118.148.8:3306/proyecto</property>
+    <property name="hibernate.connection.username">AppProyecto</property>
+    <property name="hibernate.connection.password">AppProyecto</property>
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.format_sql">true</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <mapping resource="modelo/Tareas.hbm.xml"/>
+    <mapping resource="modelo/Objetivo.hbm.xml"/>
+    <mapping resource="modelo/Proyecto.hbm.xml"/>
+    <mapping resource="modelo/Trabajador.hbm.xml"/>
+    <mapping resource="modelo/Representante.hbm.xml"/>
+    <mapping resource="modelo/Usuario.hbm.xml"/>
+    <mapping resource="modelo/Temas.hbm.xml"/>
+    <mapping resource="modelo/Integrantepoblacion.hbm.xml"/>
+    <mapping resource="modelo/Ocupacion.hbm.xml"/>
+    <mapping resource="modelo/Comunidad.hbm.xml"/>
+    <mapping resource="modelo/RepresentanteProyecto.hbm.xml"/>
+    <mapping resource="modelo/ProyectoTrabajador.hbm.xml"/>
+    <mapping resource="modelo/ClaseTrabajador.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

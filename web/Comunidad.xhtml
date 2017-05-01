@@ -1,0 +1,92 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets" 
+                 template="Template.xhtml" >
+
+    <ui:define name="content" >
+ 
+        <h:form id="forma">
+            
+            <p:growl id="grow" showDetail="true" life="5555"/>  
+            
+            <p:tabView id="tab">
+                
+                
+                <p:tab title="Gestion Comunidad"> <!-- Nombre  -->
+                    <h:panelGrid columns="4" cellpadding="5">
+
+                        <p:outputLabel for="add_1" value="Nombre :" />
+                        <p:inputText   id="add_1" value="#{comunidadBean.comunidad.nombre}" />
+
+                        <p:outputLabel for="add_2" value="Etnia :" />
+                        <p:inputText   id="add_2" value="#{comunidadBean.comunidad.etnia}" />
+                  
+                    </h:panelGrid>
+                    <p:separator />
+                    
+                    <!-- Se actulizan los formularios  forma y forma2 para limpiar y mostrar cambios -->
+                    <p:commandButton 
+                        update=":forma:grow,:forma:tab:add_1,:forma:tab:add_2,:forma2:listaComunidad"
+                        ajax="true" value="Crear" action="#{comunidadBean.crear()}"
+                                      />
+                </p:tab>
+
+            </p:tabView>
+
+        </h:form>
+
+	<h:form id="forma2">
+
+            <p:dataTable id="listaComunidad" value="#{comunidadBean.listaComunidad}"
+			var="comunidad" 
+                        paginator="true" 
+                        rows="20" 
+                        editable="true"
+                        paginatorPosition="bottom"
+                        >
+
+                       <p:ajax event="rowEdit" listener="#{comunidadBean.modificar}" update=":forma:grow" />
+
+                      <p:column headerText="Codigo Comunidad">
+                          <p:outputLabel value="#{comunidad.idcomunidad}"></p:outputLabel>
+			</p:column>
+               
+			<p:column  headerText="Nombre ">
+                             <p:cellEditor>
+                                 <f:facet name="output"><h:outputText value="#{comunidad.nombre}" /></f:facet>
+                               <f:facet name="input">
+                                   <p:inputText id="modelnombres" value="#{comunidad.nombre}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Etnia">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{comunidad.etnia}" /></f:facet>
+                               <f:facet name="input">
+                                   <p:inputText id="modelApellidos" value="#{comunidad.etnia}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+			            
+                      <!-- Editar -->
+                        <p:column style="width:30px">
+                          <p:rowEditor />
+                        </p:column>
+                        <!-- Borrar -->
+                        <p:column headerText="" style="width:30px" >
+                            <p:commandButton 
+                              update=":forma:grow,:forma2:listaComunidad"
+                              ajax="true" icon="ui-icon-trash"
+                              action="#{comunidadBean.eliminar(comunidad.idcomunidad)}" />
+			</p:column> 
+
+		</p:dataTable>
+
+	</h:form>
+        
+    </ui:define>
+      
+</ui:composition>

@@ -1,0 +1,91 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets" 
+                 template="Template.xhtml" >
+
+    <ui:define name="content" >
+ 
+        <h:form id="forma">
+            
+            <p:growl id="grow" showDetail="true" life="5555"/>  
+            
+            <p:tabView id="tab">
+                <p:tab title="Consultar Proyecto por Rango"> <!-- Nombre  -->
+                    <h:panelGrid columns="4" cellpadding="5">           
+                       
+                        <p:outputLabel for="add_1" value="Rango inicial :" />
+                        <p:calendar id="add_1" value="#{proyectoXPeriodoBean.ini}"  />
+
+                        <p:outputLabel for="add_2" value="Rango final :" />
+                        <p:calendar id="add_2" value="#{proyectoXPeriodoBean.fin}" />
+
+                    </h:panelGrid>
+                    <p:separator />
+                    
+                    <!-- Se actulizan los formularios  forma y forma2 para limpiar y mostrar cambios -->
+                    <p:commandButton 
+                        update=":forma:grow,:forma:tab:add_1,:forma:tab:add_2,:forma2:listaProyectos"
+                        ajax="true" value="Consultar por Rango" action="#{proyectoXPeriodoBean.updatetable()}"
+                                      />
+                </p:tab>
+
+            </p:tabView>
+
+
+        </h:form>
+
+	<h:form id="forma2">
+
+	   <p:dataTable id="listaProyectos" value="#{proyectoXPeriodoBean.listaProyecto}"
+			var="proyecto" 
+                        paginator="true" 
+                        rows="20" 
+                        editable="true"
+                        paginatorPosition="bottom"
+                        >                     
+
+                      <p:column headerText="Codigo proyecto">
+                           <p:outputLabel value="#{proyecto.idProyecto}"></p:outputLabel>
+			</p:column>
+               
+			<p:column  headerText="Titulo proyecto">
+                             <h:outputText value="#{proyecto.tituloProyecto}" />
+			</p:column>
+
+			<p:column headerText="Descripcion">
+                           <h:outputText value="#{proyecto.descripcion}" />
+			</p:column>
+
+			<p:column  headerText="Presupuesto">
+                            <h:outputText value="#{proyecto.presupuesto}" />
+			</p:column>
+
+			<p:column  headerText="Alcance">
+                            <h:outputText value="#{proyecto.alcance}" />
+			</p:column>
+             
+                      <p:column  headerText="Fecha inicio">
+                          <h:outputText value="#{proyecto.fechaInicio}" />
+			</p:column>
+               
+                      <p:column  headerText="Fecha final">
+                       <h:outputText value="#{proyecto.fechaFinalizacion}" />
+                       </p:column>
+               
+                       <p:column style="width:150px" headerText="Comunidad">
+                         <h:outputText value="#{proyecto.comunidad.nombre}" />
+			</p:column>
+
+                       <p:column style="width:150px" headerText="Tema" >
+                         <h:outputText value="#{proyecto.temas.descripcion}" />
+			</p:column>                       
+
+		</p:dataTable>
+
+	</h:form>
+        
+    </ui:define>
+    
+</ui:composition>

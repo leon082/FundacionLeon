@@ -1,0 +1,110 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets" 
+                 template="Template.xhtml" >
+
+    <ui:define name="content" >
+ 
+        <h:form id="forma">
+            
+            <p:growl id="grow" showDetail="true" life="5555"/>  
+            
+            <p:tabView id="tab">
+                
+                
+                <p:tab title="Gestion Objetivos"> <!-- Nombre  -->
+                    <h:panelGrid columns="4" cellpadding="5">
+
+                        <p:outputLabel for="add_1" value="Descripcion :" />
+                        <p:inputText   id="add_1" value="#{objetivoBean.objetivo.descripcion}" />
+                        
+                         <p:outputLabel for="add_2" value="Proyecto :" />
+                         <p:selectOneMenu  id="add_2" value="#{objetivoBean.v_select_Proyecto}">  
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                                <f:selectItems value="#{objetivoBean.itemsProyectos}"/>  
+                         </p:selectOneMenu> 
+                        
+                          <p:outputLabel for="add_3" value="Cumplimiento :" />    
+                          <p:selectBooleanCheckbox id="add_3" value="#{objetivoBean.objetivo.cumplimiento}" />
+                        
+                    </h:panelGrid>
+                    <p:separator />
+                    
+                    <!-- Se actulizan los formularios  forma y forma2 para limpiar y mostrar cambios -->
+                    <p:commandButton 
+                        update=":forma:grow,:forma:tab:add_1,:forma:tab:add_2,:forma:tab:add_3,:forma2:listaObjetivos"
+                        ajax="true" value="Crear" action="#{objetivoBean.crear()}"
+                                      />
+                </p:tab>
+
+            </p:tabView>
+
+        </h:form>
+
+	<h:form id="forma2">
+
+            <p:dataTable id="listaObjetivos" value="#{objetivoBean.listaobjetivo}"
+			var="objetivo" 
+                        paginator="true" 
+                        rows="20" 
+                        editable="true"
+                        paginatorPosition="bottom"
+                        >
+
+                <p:ajax event="rowEdit" listener="#{objetivoBean.modificar}" update=":forma:grow" />
+
+                      <p:column headerText="Codigo Objetivo">
+                          <p:outputLabel value="#{objetivo.idobjetivo}"></p:outputLabel>
+			</p:column>
+               
+			<p:column  headerText="Descripcion ">
+                             <p:cellEditor>
+                                 <f:facet name="output"><h:outputText value="#{objetivo.descripcion}" /></f:facet>
+                               <f:facet name="input">
+                                   <p:inputText id="modelobjetivo" value="#{objetivo.descripcion}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+
+			 <p:column style="width:150px" headerText="Proyectos">
+                         <p:cellEditor>
+                             <f:facet name="output"><h:outputText value="#{objetivo.proyecto.tituloProyecto}" /></f:facet>
+                              <f:facet name="input">
+                                  <h:selectOneMenu value="#{objetivo.proyecto.idProyecto}">  
+                                      <f:selectItems value="#{objetivoBean.itemsProyectos}"/>  
+                               </h:selectOneMenu> 
+                            </f:facet>
+                          </p:cellEditor>
+			</p:column>
+                
+                <p:column  headerText="Cumplimiento ">
+                             <p:cellEditor>
+                                 <f:facet name="output"> <p:selectBooleanCheckbox disabled="true" value="#{objetivo.cumplimiento}" />
+                                 </f:facet>
+                               <f:facet name="input">
+                                   <p:selectBooleanCheckbox value="#{objetivo.cumplimiento}" />  
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+			            
+                      <!-- Editar -->
+                        <p:column style="width:30px">
+                          <p:rowEditor />
+                        </p:column>
+                        <!-- Borrar -->
+                        <p:column headerText="" style="width:30px" >
+                            <p:commandButton 
+                              update=":forma:grow,:forma2:listaObjetivos"
+                              ajax="true" icon="ui-icon-trash"
+                              action="#{objetivoBean.eliminar(objetivo.idobjetivo)}" />
+			</p:column> 
+
+		</p:dataTable>
+
+	</h:form>
+        
+    </ui:define>
+</ui:composition>
+

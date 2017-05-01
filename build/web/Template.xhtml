@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" >
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Proyecto Fundacion</title>
+
+    </h:head>
+    
+    <h:body style="
+background: rgba(255,255,255,1);
+background: -moz-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(255,255,255,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(100%, rgba(237,237,237,1)));
+background: -webkit-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+background: -o-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+background: -ms-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+background: radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=1 );">
+        <h:form>
+                <div>
+                    <br></br>
+                    <h1 style="font: 150% sans-serif;">Proyecto Fundacion</h1>
+                    <br></br>
+                </div>
+                <p:separator />
+               <div>
+                <p:megaMenu style="margin-top:20px">
+                    <p:submenu label="Proyecto" icon="ui-icon-folder-open">
+                        <p:column>
+                            <p:submenu label=" ">
+                                <p:menuitem value="Gestion Proyecto" url="/faces/Proyectos.xhtml" />
+                                <p:menuitem value="Gestion Proyectos Trabajador" url="/faces/Proyecto_Trabajador.xhtml" />
+                                <p:menuitem value="Gestion Objetivo" url="/faces/Objetivo.xhtml" />
+                                <p:menuitem value="Gestion Tareas" url="/faces/tareas.xhtml" />
+                                <p:menuitem value="Gestion Representantes proyecto" url="/faces/representante_proyecto.xhtml" />
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+                    
+                    <p:submenu label="Comunidad" icon="ui-icon-clipboard">
+                        <p:column>
+                            <p:submenu label=" ">
+                                <p:menuitem value="Gestion Comunidad" url="/faces/Comunidad.xhtml" />
+                                <p:menuitem value="Gestion Integracion Poblacion" url="/faces/IntegrantePoblacion.xhtml" />
+                                <p:menuitem value="Gestion Representante" url="/faces/representante.xhtml" />
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+                    
+                    <p:submenu label="Usuario" icon="ui-icon-person">
+                        <p:column>
+                            <p:submenu label=" ">
+                                <p:menuitem value="Gestion Trabajadores" url="/faces/Trabajadores.xhtml" />
+                                <p:menuitem value="Gestion Usuarios" url="/faces/Usuarios.xhtml" />
+                                <p:menuitem value="Gestion Ocupacion" url="/faces/Ocupacion_1.xhtml" />
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+                    
+                      <p:submenu label="Reportes" icon="ui-icon-folder-collapsed">
+                        <p:column>
+                            <p:submenu label=" ">
+                                <p:menuitem value="Listar Proyecto Segun Comunidad" url="/faces/ListarXComunidad.xhtml" />
+                                <p:menuitem value="Consultar Proyecto por Rango" url="/faces/ListarXPeriodo.xhtml" />
+                                <p:menuitem value="Consulta Evaluacion de Proyectos" url="/faces/Evaluacion.xhtml" />
+                                <p:menuitem value="Consulta Profesionales Especializados" url="/faces/ProfesionalesEspecializados.xhtml" />
+                                <p:menuitem value="Consulta Menores Comunidad" url="/faces/MenoresComunidad.xhtml" />                  
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+                    
+              </p:megaMenu>
+              </div>
+                <p:separator />
+        </h:form>             
+
+        <ui:insert  name="content">Content</ui:insert>
+
+        <p:separator />
+        
+    </h:body>
+
+</html>

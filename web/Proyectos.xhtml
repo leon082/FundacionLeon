@@ -1,0 +1,173 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets" 
+                 template="Template.xhtml" >
+
+    <ui:define name="content" >
+ 
+        <h:form id="forma">
+            
+            <p:growl id="grow" showDetail="true" life="5555"/>  
+            
+            <p:tabView id="tab">
+                <p:tab title="Gestion Proyecto"> <!-- Nombre  -->
+                    <h:panelGrid columns="4" cellpadding="5">
+
+                        <p:outputLabel for="add_1" value="Titulo proyecto :" />
+                        <p:inputText   id="add_1" value="#{proyectoBean.proyecto.tituloProyecto}" />
+
+                        <p:outputLabel for="add_2" value="Descripcion :" />
+                        <p:inputText   id="add_2" value="#{proyectoBean.proyecto.descripcion}" />
+
+                        <p:outputLabel for="add_3" value="Alcance :" />
+                        <p:inputText   id="add_3" value="#{proyectoBean.proyecto.alcance}" />
+
+                        <p:outputLabel for="add_4" value="Presupuesto :" />
+                        <p:inputText   id="add_4" value="#{proyectoBean.proyecto.presupuesto}" />
+
+                        <p:outputLabel for="add_5" value="Fecha inicio :" />
+                        <p:calendar id="add_5" value="#{proyectoBean.proyecto.fechaInicio}"  />
+
+                        <p:outputLabel for="add_6" value="Fecha final :" />
+                        <p:calendar id="add_6" value="#{proyectoBean.proyecto.fechaFinalizacion}" />
+
+                        <p:outputLabel for="add_7" value="Comunidad :" />
+                        <p:selectOneMenu  id="add_7" value="#{proyectoBean.v_select_comunidad}">  
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                                <f:selectItems value="#{proyectoBean.itemsComunida}"/>  
+                         </p:selectOneMenu>   
+                     
+                        <p:outputLabel for="add_8" value="Tema :" />
+                        <p:selectOneMenu  id="add_8" value="#{proyectoBean.v_select_tema}">  
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                                <f:selectItems value="#{proyectoBean.itemsComTemas}"/>  
+                        </p:selectOneMenu> 
+
+                    </h:panelGrid>
+                    <p:separator />
+                    
+                    <!-- Se actulizan los formularios  forma y forma2 para limpiar y mostrar cambios -->
+                    <p:commandButton 
+                        update=":forma:grow,:forma:tab:add_1,:forma:tab:add_2,:forma:tab:add_3,:forma:tab:add_4,:forma:tab:add_5,:forma:tab:add_6,:forma:tab:add_7,:forma:tab:add_8,:forma2:listaProyectos"
+                        ajax="true" value="Crear" action="#{proyectoBean.crear()}"
+                                      />
+                </p:tab>
+
+            </p:tabView>
+
+
+        </h:form>
+
+	<h:form id="forma2">
+
+	   <p:dataTable id="listaProyectos" value="#{proyectoBean.listaProyecto}"
+			var="proyecto" 
+                        paginator="true" 
+                        rows="20" 
+                        editable="true"
+                        paginatorPosition="bottom"
+                        >
+
+                       <p:ajax event="rowEdit" listener="#{proyectoBean.modificar}" update=":forma:grow" />
+
+                      <p:column headerText="Codigo proyecto">
+                           <p:outputLabel value="#{proyecto.idProyecto}"></p:outputLabel>
+			</p:column>
+               
+			<p:column  headerText="Titulo proyecto">
+                             <p:cellEditor>
+                               <f:facet name="output"><h:outputText value="#{proyecto.tituloProyecto}" /></f:facet>
+                               <f:facet name="input">
+                                  <p:inputText id="modeltitulo" value="#{proyecto.tituloProyecto}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Descripcion">
+                            <p:cellEditor>
+                               <f:facet name="output"><h:outputText value="#{proyecto.descripcion}" /></f:facet>
+                               <f:facet name="input">
+                                  <p:inputText id="modelDescripcion" value="#{proyecto.descripcion}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+
+			<p:column  headerText="Presupuesto">
+                             <p:cellEditor>
+                               <f:facet name="output"><h:outputText value="#{proyecto.presupuesto}" /></f:facet>
+                               <f:facet name="input">
+                                  <p:inputText id="modelPresupuesto" value="#{proyecto.presupuesto}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+
+			<p:column  headerText="Alcance">
+                            <p:cellEditor>
+                               <f:facet name="output"><h:outputText value="#{proyecto.alcance}" /></f:facet>
+                               <f:facet name="input">
+                                  <p:inputText id="modelAlcance" value="#{proyecto.alcance}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+             
+                      <p:column  headerText="Fecha inicio">
+                            <p:cellEditor>
+                                <f:facet name="output"><p:calendar disabled="true" value="#{proyecto.fechaInicio}" /></f:facet>
+                               <f:facet name="input">
+                                  <p:calendar  value="#{proyecto.fechaInicio}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+               
+                      <p:column  headerText="Fecha final">
+                        <p:cellEditor>
+                            <f:facet name="output"><p:calendar disabled="true"  readonly="true" value="#{proyecto.fechaFinalizacion}" /></f:facet>
+                           <f:facet name="input">
+                               <p:calendar  value="#{proyecto.fechaFinalizacion}" />
+                           </f:facet>
+                        </p:cellEditor>
+                       </p:column>
+               
+                       <p:column style="width:150px" headerText="Comunidad">
+                         <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{proyecto.comunidad.nombre}" /></f:facet>
+                              <f:facet name="input">
+                               <h:selectOneMenu value="#{proyecto.comunidad.idcomunidad}">  
+                                     <f:selectItems value="#{proyectoBean.itemsComunida}"/>  
+                               </h:selectOneMenu> 
+                            </f:facet>
+                          </p:cellEditor>
+			</p:column>
+
+                       <p:column style="width:150px" headerText="Tema" >
+                         <p:cellEditor>
+                           <f:facet name="output"><h:outputText value="#{proyecto.temas.descripcion}" /></f:facet>
+                           <f:facet name="input">
+                               <h:selectOneMenu value="#{proyecto.temas.idtemas}">  
+                                 <f:selectItems value="#{proyectoBean.itemsComTemas}"/>  
+                              </h:selectOneMenu> 
+                           </f:facet>
+                         </p:cellEditor>
+			</p:column> 
+                       <!-- Editar -->
+                        <p:column style="width:30px">
+                          <p:rowEditor />
+                        </p:column>
+                        <!-- Borrar -->
+                        <p:column headerText="" style="width:30px" >
+                            <p:commandButton 
+                              update=":forma:grow,:forma2:listaProyectos"
+                              ajax="true" icon="ui-icon-trash"
+                              action="#{proyectoBean.eliminar(proyecto.idProyecto)}" />
+			</p:column> 
+
+		</p:dataTable>
+
+	</h:form>
+        
+    </ui:define>
+    
+</ui:composition>
+

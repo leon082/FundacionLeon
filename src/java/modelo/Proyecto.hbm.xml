@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21/05/2016 07:17:24 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="modelo.Proyecto" table="proyecto" catalog="proyecto">
+        <id name="idProyecto" type="java.lang.Integer">
+            <column name="idProyecto" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="temas" class="modelo.Temas" fetch="select">
+            <column name="temas_idtemas" not-null="true" />
+        </many-to-one>
+        <many-to-one name="comunidad" class="modelo.Comunidad" fetch="select">
+            <column name="comunidad_idcomunidad" not-null="true" />
+        </many-to-one>
+        <property name="tituloProyecto" type="string">
+            <column name="tituloProyecto" length="45" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="45" />
+        </property>
+        <property name="alcance" type="string">
+            <column name="alcance" length="45" />
+        </property>
+        <property name="presupuesto" type="java.lang.Long">
+            <column name="presupuesto" precision="10" scale="0" />
+        </property>
+        <property name="fechaInicio" type="timestamp">
+            <column name="fechaInicio" length="19" />
+        </property>
+        <property name="fechaFinalizacion" type="timestamp">
+            <column name="fechaFinalizacion" length="19" />
+        </property>
+        <set name="objetivos" table="objetivo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Proyecto_idProyecto" not-null="true" />
+            </key>
+            <one-to-many class="modelo.Objetivo" />
+        </set>
+        <set name="proyectoTrabajadors" table="proyecto_trabajador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Proyecto_idProyecto" not-null="true" />
+            </key>
+            <one-to-many class="modelo.ProyectoTrabajador" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21/05/2016 07:17:24 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="modelo.Tareas" table="tareas" catalog="proyecto">
+        <id name="idtareas" type="java.lang.Integer">
+            <column name="idtareas" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="proyectoTrabajador" class="modelo.ProyectoTrabajador" fetch="select">
+            <column name="Proyecto_trabajador_idProyecto_trabajador" not-null="true" />
+        </many-to-one>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="45" />
+        </property>
+        <property name="fechaAsignacion" type="timestamp">
+            <column name="fechaAsignacion" length="19" />
+        </property>
+        <property name="fechaCulminacion" type="timestamp">
+            <column name="fechaCulminacion" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

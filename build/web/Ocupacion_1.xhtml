@@ -1,0 +1,97 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets" 
+                 template="Template.xhtml" >
+
+    <ui:define name="content" >
+ 
+        <h:form id="forma">
+            
+            <p:growl id="grow" showDetail="true" life="5555"/>  
+            
+            <p:tabView id="tab">
+                
+                <p:tab title="Gestion Ocupacion"> <!-- Nombre  -->
+                    <h:panelGrid columns="4" cellpadding="5">
+
+                        <p:outputLabel for="add_1" value="Descripcion :" />
+                        <p:inputText   id="add_1" value="#{ocupacionBean1.ocupacion.descripcion}" />
+
+                                             
+                        <p:outputLabel for="add_2" value="Clase Trabajador :" />
+                        <p:selectOneMenu  id="add_2" value="#{ocupacionBean1.v_select_ocupacion}">  
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                                <f:selectItems value="#{ocupacionBean1.itemsclaseTrabajador}"/>  
+                         </p:selectOneMenu>   
+                                            
+                    </h:panelGrid>
+                    <p:separator />
+                    
+                    <!-- Se actulizan los formularios  forma y forma2 para limpiar y mostrar cambios -->
+                    <p:commandButton 
+                        update=":forma:grow,:forma:tab:add_1,:forma:tab:add_2,:forma2:listaOcupacion"
+                        ajax="true" value="Crear" action="#{ocupacionBean1.crear()}"
+                                      />
+                </p:tab>
+
+            </p:tabView>
+
+        </h:form>
+
+	<h:form id="forma2">
+
+            <p:dataTable id="listaOcupacion" value="#{ocupacionBean1.listaOcupacion}"
+			var="ocupacion" 
+                        paginator="true" 
+                        rows="20" 
+                        editable="true"
+                        paginatorPosition="bottom"
+                        >
+
+                       <p:ajax event="rowEdit" listener="#{ocupacionBean1.modificar}" update=":forma:grow" />
+
+                      <p:column headerText="Codigo Ocupacion">
+                          <p:outputLabel value="#{ocupacion.idocupacion}"></p:outputLabel>
+			</p:column>
+               
+			<p:column  headerText="Descripcion ">
+                             <p:cellEditor>
+                                 <f:facet name="output"><h:outputText value="#{ocupacion.descripcion}" /></f:facet>
+                               <f:facet name="input">
+                                  <p:inputText id="modeldescripcion" value="#{ocupacion.descripcion}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>      
+                               
+                       <p:column style="width:150px" headerText="Clase Trabajador">
+                         <p:cellEditor>
+                             <f:facet name="output"><h:outputText value="#{ocupacion.claseTrabajador.descripcion}" /></f:facet>
+                              <f:facet name="input">
+                                  <h:selectOneMenu value="#{ocupacion.claseTrabajador.idclaseTrabajador}">  
+                                      <f:selectItems value="#{ocupacionBean1.itemsclaseTrabajador}"/>  
+                               </h:selectOneMenu> 
+                            </f:facet>
+                          </p:cellEditor>
+			</p:column>
+
+                      <!-- Editar -->
+                        <p:column style="width:30px">
+                          <p:rowEditor />
+                        </p:column>
+                        <!-- Borrar -->
+                        <p:column headerText="" style="width:30px" >
+                            <p:commandButton 
+                              update=":forma:grow,:forma2:listaOcupacion"
+                              ajax="true" icon="ui-icon-trash"
+                              action="#{ocupacionBean1.eliminar(ocupacion.idocupacion)}" />
+			</p:column> 
+
+		</p:dataTable>
+
+	</h:form>
+        
+    </ui:define>
+</ui:composition>
+

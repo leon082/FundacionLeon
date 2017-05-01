@@ -1,0 +1,122 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets" 
+                 template="Template.xhtml" >
+
+    <ui:define name="content" >
+
+        <h:form id="forma">
+            
+            <p:growl id="grow" showDetail="true" life="5555"/>  
+            
+            <p:tabView id="tab">
+                <p:tab title="Gestion Representante"> <!-- Nombre  -->
+                    <h:panelGrid columns="4" cellpadding="5">
+
+                        <p:outputLabel for="add_1" value="telefono :" />
+                        <p:inputText   id="add_1" value="#{representanteBean.representante.telefono}" />
+
+                        <p:outputLabel for="add_2" value="Direccion :" />
+                        <p:inputText   id="add_2" value="#{representanteBean.representante.direccion}" />
+
+                        <p:outputLabel for="add_3" value="email :" />
+                        <p:inputText   id="add_3" value="#{representanteBean.representante.email}" />
+                         
+                        <p:outputLabel for="add_4" value="Integrante poblacion :" />
+                        <p:selectOneMenu  id="add_4" value="#{representanteBean.v_select_representante}">  
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                                <f:selectItems value="#{representanteBean.itemsPersonaComunidad}"/>  
+                        </p:selectOneMenu> 
+
+                    </h:panelGrid>
+                    <p:separator />
+                    
+                    <!-- Se actulizan los formularios  forma y forma2 para limpiar y mostrar cambios -->
+                    <p:commandButton 
+                        update=":forma:grow,:forma:tab:add_1,:forma:tab:add_2,:forma:tab:add_3,:forma:tab:add_4,:forma2:listaRepresentante"
+                        ajax="true" value="Crear" action="#{representanteBean.crear()}"
+                                      />
+                </p:tab>
+
+            </p:tabView>
+
+
+        </h:form>
+
+	<h:form id="forma2">
+
+            <p:dataTable id="listaRepresentante" value="#{representanteBean.listaRepresentante}"
+			var="representante" 
+                        paginator="true" 
+                        rows="20" 
+                        editable="true"
+                        paginatorPosition="bottom"
+                        >
+
+                <p:ajax event="rowEdit" listener="#{representanteBean.modificar}" update=":forma:grow" />
+
+                      <p:column headerText="Codigo representante">
+                          <p:outputLabel value="#{representante.id.idrepresentante}"></p:outputLabel>
+			</p:column>
+               
+			<p:column  headerText="Telefono">
+                             <p:cellEditor>
+                                 <f:facet name="output"><h:outputText value="#{representante.telefono}" /></f:facet>
+                               <f:facet name="input">
+                                  <p:inputText id="modeltitulo" value="#{representante.telefono}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Direccion">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{representante.direccion}" /></f:facet>
+                               <f:facet name="input">
+                                   <p:inputText id="modelDescripcion" value="#{representante.direccion}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+
+			<p:column  headerText="Email">
+                             <p:cellEditor>
+                                 <f:facet name="output"><h:outputText value="#{representante.email}" /></f:facet>
+                               <f:facet name="input">
+                                   <p:inputText id="modelPresupuesto" value="#{representante.email}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+
+			<p:column style="width:150px" headerText="Integerante poblacion">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{representante.integrantepoblacion.nombres}" /></f:facet>
+                        <f:facet name="input">
+                            <h:selectOneMenu value="#{representante.integrantepoblacion.idIntegrante}">  
+                                <f:selectItems value="#{representanteBean.itemsPersonaComunidad}"/>  
+                            </h:selectOneMenu> 
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+             
+                      
+                        <!-- Editar -->
+                        <p:column style="width:30px">
+                          <p:rowEditor />
+                        </p:column>
+                        <!-- Borrar -->
+                        <p:column headerText="" style="width:30px" >
+                            <p:commandButton 
+                              update=":forma:grow,:forma2:listaRepresentante"
+                              ajax="true" icon="ui-icon-trash"
+                              action="#{representanteBean.eliminar(representante)}" />
+			</p:column> 
+
+		</p:dataTable>
+
+	</h:form>
+        
+
+    </ui:define> 
+</ui:composition>
+

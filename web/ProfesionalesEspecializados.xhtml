@@ -1,0 +1,78 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets" 
+                 template="Template.xhtml" >
+
+    <ui:define name="content" >
+        
+        <h:form id="forma">
+
+            <p:growl id="grow" showDetail="true" life="5555"/>  
+
+            <p:tabView id="tab">
+                <p:tab title="Consulta Profesionales Especializados"> <!-- Nombre  -->
+                    <h:panelGrid columns="4" cellpadding="5">
+
+
+                        <p:outputLabel for="add_1" value="Proyectos :" />
+                        <p:selectOneMenu  id="add_1" value="#{reporteProfesionalesEspecializadosBean.v_select_proyectos}">  
+                            <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                            <f:selectItems value="#{reporteProfesionalesEspecializadosBean.itemsProyectos}"/>  
+                        </p:selectOneMenu> 
+
+                    </h:panelGrid>
+                    <p:separator />
+
+                    <!-- Se actulizan los formularios  forma y forma2 para limpiar y mostrar cambios -->
+                    <p:commandButton 
+                        update=":forma:grow,:forma:tab:add_1,:forma2:listaTrabajadores"
+                        ajax="true" value="Consultar" action="#{reporteProfesionalesEspecializadosBean.consultar()}"
+                        />
+                </p:tab>
+
+            </p:tabView>
+
+
+        </h:form>
+        
+        <h:form id="forma2">
+
+            <p:dataTable id="listaTrabajadores" value="#{reporteProfesionalesEspecializadosBean.listadoTrabajadoresProfesionales}"
+                         var="trabajadores" 
+                         paginator="true" 
+                         rows="20" 
+                         editable="true"
+                         paginatorPosition="bottom"
+                         >                     
+
+                <p:column headerText="Codigo trabajador">
+                    <p:outputLabel value="#{trabajadores.idTrabajador}"></p:outputLabel>
+                </p:column>
+
+                <p:column  headerText="Nombre">
+                    <h:outputText value="#{trabajadores.nombres}" />
+                </p:column>
+
+                <p:column headerText="Apellidos">
+                    <h:outputText value="#{trabajadores.apellidos}" />
+                </p:column>
+                
+                <p:column headerText="Fecha de nacimiento">
+                    <h:outputText value="#{trabajadores.fechaNacimiento}" />
+                </p:column>
+
+                <p:column  headerText="Ocupacion">
+                    <h:outputText value="#{trabajadores.descripcion}" />
+                </p:column>
+
+
+
+            </p:dataTable>
+
+        </h:form> 
+
+    </ui:define>
+      
+</ui:composition>

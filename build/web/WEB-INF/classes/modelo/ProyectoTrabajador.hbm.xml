@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21/05/2016 07:17:24 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="modelo.ProyectoTrabajador" table="proyecto_trabajador" catalog="proyecto">
+        <id name="idProyectoTrabajador" type="java.lang.Integer">
+            <column name="idProyecto_trabajador" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="trabajador" class="modelo.Trabajador" fetch="select">
+            <column name="trabajador_idtrabajador" not-null="true" />
+        </many-to-one>
+        <many-to-one name="proyecto" class="modelo.Proyecto" fetch="select">
+            <column name="Proyecto_idProyecto" not-null="true" />
+        </many-to-one>
+        <set name="representanteProyectos" table="representante_proyecto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Proyecto_trabajador_idProyecto_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="modelo.RepresentanteProyecto" />
+        </set>
+        <set name="tareases" table="tareas" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Proyecto_trabajador_idProyecto_trabajador" not-null="true" />
+            </key>
+            <one-to-many class="modelo.Tareas" />
+        </set>
+    </class>
+</hibernate-mapping>

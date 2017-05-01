@@ -1,0 +1,123 @@
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://java.sun.com/jsf/facelets" 
+                 template="Template.xhtml" >
+
+    <ui:define name="content" >
+ 
+        <h:form id="forma">
+            
+            <p:growl id="grow" showDetail="true" life="5555"/>  
+            
+            <p:tabView id="tab">
+                <p:tab title="Gestion Integrante Poblacion"> <!-- Nombre  -->
+                    <h:panelGrid columns="4" cellpadding="5">
+
+                        <p:outputLabel for="add_1" value="Nombres :" />
+                        <p:inputText   id="add_1" value="#{integrantePoblacionBean.integrantepoblacion.nombres}" />
+
+                        <p:outputLabel for="add_2" value="Apellidos :" />
+                        <p:inputText   id="add_2" value="#{integrantePoblacionBean.integrantepoblacion.apellidos}" />
+
+                        <p:outputLabel for="add_3" value="Fecha Nacimiento :" />
+                        <p:calendar id="add_3" value="#{integrantePoblacionBean.integrantepoblacion.fecha_select}" />
+
+                        <p:outputLabel for="add_4" value="Comunidad :" />
+                        <p:selectOneMenu  id="add_4" value="#{integrantePoblacionBean.v_select_comunidad}">  
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                                <f:selectItems value="#{integrantePoblacionBean.itemsComunida}"/>  
+                        </p:selectOneMenu>   
+                        
+                    </h:panelGrid>
+                    <p:separator />
+                    
+                    <!-- Se actulizan los formularios  forma y forma2 para limpiar y mostrar cambios -->
+                    <p:commandButton 
+                        update=":forma:grow,:forma:tab:add_1,:forma:tab:add_2,:forma:tab:add_3,:forma:tab:add_4,:forma2:listaIntegrantesPobla"
+                        ajax="true" value="Crear" action="#{integrantePoblacionBean.crear()}"
+                                      />
+                </p:tab>
+
+            </p:tabView>
+
+
+        </h:form>
+
+	<h:form id="forma2">
+
+            <p:dataTable id="listaIntegrantesPobla" value="#{integrantePoblacionBean.listaIntegrantepoblacion}"
+			var="IntegrantesPobla" 
+                        paginator="true" 
+                        rows="20" 
+                        editable="true"
+                        paginatorPosition="bottom"
+                        >
+
+                       <p:ajax event="rowEdit" listener="#{integrantePoblacionBean.modificar}" update=":forma:grow" />
+
+                      <p:column headerText="Codigo Integrante Poblacion">
+                          <p:outputLabel value="#{IntegrantesPobla.idIntegrante}"></p:outputLabel>
+			</p:column>
+               
+
+			<p:column headerText="Nombres">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{IntegrantesPobla.nombres}" /></f:facet>
+                               <f:facet name="input">
+                                  <p:inputText id="modelDescripcion" value="#{IntegrantesPobla.nombres}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+
+			<p:column  headerText="Apellidos">
+                             <p:cellEditor>
+                               <f:facet name="output"><h:outputText value="#{IntegrantesPobla.apellidos}" /></f:facet>
+                               <f:facet name="input">
+                                  <p:inputText id="modelPresupuesto" value="#{IntegrantesPobla.apellidos}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+
+                       <p:column  headerText="Fecha Nacimiento">
+                            <p:cellEditor>
+                               <f:facet name="output"><h:outputText value="#{IntegrantesPobla.fechaNacimiento}" /></f:facet>
+                               <f:facet name="input">
+                                   <p:calendar value="#{IntegrantesPobla.fecha_select}" />
+                               </f:facet>
+                            </p:cellEditor>
+			</p:column>
+ 
+                       <p:column style="width:150px" headerText="Comunidades" >
+                         <p:cellEditor>
+                             <f:facet name="output"><h:outputText value="#{IntegrantesPobla.comunidad.nombre}" /></f:facet>
+                           <f:facet name="input">
+                               <h:selectOneMenu value="#{IntegrantesPobla.comunidad.idcomunidad}">  
+                                 <f:selectItems value="#{integrantePoblacionBean.itemsComunida}"/>  
+                              </h:selectOneMenu> 
+                           </f:facet>
+                         </p:cellEditor>
+			</p:column> 
+                       
+                       <!-- Editar -->
+                        <p:column style="width:30px">
+                          <p:rowEditor />
+                        </p:column>
+                        <!-- Borrar -->
+                        <p:column headerText="" style="width:30px" >
+                            <p:commandButton 
+                              update=":forma:grow,:forma2:listaIntegrantesPobla"
+                              ajax="true" icon="ui-icon-trash"
+                              action="#{integrantePoblacionBean.eliminar(IntegrantesPobla.idIntegrante)}" />
+			</p:column> 
+
+		</p:dataTable>
+
+	</h:form>
+        
+    </ui:define>
+      
+</ui:composition>
+
+
